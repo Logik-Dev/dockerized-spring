@@ -1,0 +1,21 @@
+version: '3'
+services:
+  spring:
+    build: .
+    image: spring:latest
+    container_name: spring
+    ports:
+      - 80:8080
+    links:
+      - mysql
+  mysql:
+    image: mysql
+    container_name: mysql
+    restart: always
+    volumes:
+      - ./db-data:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=docker
+      - MYSQL_PASSWORD=changeme
+      - MYSQL_USER=cedric
+      - MYSQL_ROOT_PASSWORD=changeme
