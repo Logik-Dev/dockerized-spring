@@ -1,0 +1,5 @@
+--add-modules
+        org.junit.jupiter.api
+
+--add-reads
+        FP.EDM.main=org.junit.jupiter.api
