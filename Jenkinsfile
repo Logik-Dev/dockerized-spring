@@ -12,7 +12,7 @@ node {
      docker-compose up -d --build
      
      echo 'Waiting for localhost'
-     sleep(10)
+     sleep 10
 	
      echo 'Testing localhost'
      curl localhost
