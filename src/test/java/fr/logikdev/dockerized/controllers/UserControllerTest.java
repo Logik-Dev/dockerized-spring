@@ -41,7 +41,7 @@ class UserControllerTest {
 	@Test
 	void testFindById() throws Exception {
 		when(userRepository.findById(1)).thenReturn(Optional.of(user));
-		ResultActions result = mockMvc.perform(get("/1")).andExpect(status().isOk());
+		ResultActions result = mockMvc.perform(get("/api/users/1")).andExpect(status().isOk());
 		assertOnResult(result);
 	}
 	
