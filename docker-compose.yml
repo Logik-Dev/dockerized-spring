@@ -12,6 +12,7 @@ services:
     image: mysql
     container_name: mysql
     restart: always
+    user: 1000:694
     volumes:
       -  db-data:/var/lib/mysql
     environment:
