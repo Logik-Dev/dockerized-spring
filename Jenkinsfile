@@ -8,9 +8,16 @@ node {
   }
   stage('Docker Compose') {
     sh """
+     echo 'Launching services'
      docker-compose up -d --build
-     ./wait-for.sh 127.0.0.1:80 --timeout=30 
+     
+     echo 'Waiting for localhost'
+     sleep(10)
+	
+     echo 'Testing localhost'
      curl localhost
+
+     echo 'Kill services'
      docker-compose down
 	"""   
     
