@@ -11,6 +11,7 @@ node {
     sh 'docker-compose up -d --build'    
   }
   stage('Test Working') {
-    sh """ curl -d '{"firstname": "cédric", "lastname": "maunier"}' -H "Content-Type: application/json" -X POST localhost """
+    sh 'curl localhost:80'
   }
+
 }
