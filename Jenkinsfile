@@ -1,45 +1,21 @@
 node {
-    stage('Clone Frontend') {
-
-        dir('angular') {
-
-            echo 'Clone Frontend'
-            git 'https://github.com/Logik-Dev/angular-dockerized'
-            
-            echo 'Install angular cli'
-            sh 'npm install @angular/cli'
-            
-            echo 'Build FrontEnd'
-            sh 'ng build --prod=true'
-        
-        }
-
+    stage('Clone') {
+        echo 'Clone backend'
+        git 'https://github.com/Logik-Dev/dockerized-spring'
     }
-    stage('Clone Backend') {
-
-        dir('spring'){
-
-            echo 'Clone backend'
-            git 'https://github.com/Logik-Dev/dockerized-spring'
-        }
+    stage('Copy') {
+        echo 'Copying static files'
+        sh 'mkdir -p src/main/resources/static'
+        sh """ cp $JENKINS_HOME/workspace/FrontEnd/dist/angular-dockerized/* src/main/resources/static """
     }
-    stage('Build Backend') { 
-
-       dir('spring'){
-
-            echo 'Copying static files'
-            sh """
-                mkdir -p src/main/resources/static
-                cp ${env.WORKSPACE}/angular/dist/angular-dockerized/* src/main/resources/static """
+    stage('Build') { 
+        echo 'Make jar'
+        sh 'gradle build'
             
-            echo 'Make jar'
-            sh 'gradle build'
-            
-            echo 'Start docker services'
-            sh """
-                docker-compose up -d --build
-                sleep 10
-                curl localhost """
+        echo 'Start docker services'
+        sh """
+            docker stop spring mysql
+            docker rm spring mysql
+            docker-compose up -d --build """
         }
-    }
 }
