@@ -6,15 +6,19 @@ services:
     container_name: spring
     ports:
       - 80:8080
+    depends_on:
+      - mysql
     links:
       - mysql
   mysql:
     image: mysql
     container_name: mysql
-    restart: always
     environment:
       - MYSQL_DATABASE=docker
       - MYSQL_PASSWORD=changeme
       - MYSQL_USER=cedric
       - MYSQL_ROOT_PASSWORD=changeme
-
+    volumes:
+      - ~/docker-volumes/db-data:/var/lib/mysql
+volumes:
+  db-data:
