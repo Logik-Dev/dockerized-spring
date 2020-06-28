@@ -8,8 +8,6 @@ services:
       - 80:8080
     depends_on:
       - mysql
-    links:
-      - mysql
   mysql:
     image: mysql
     container_name: mysql
@@ -19,6 +17,6 @@ services:
       - MYSQL_USER=cedric
       - MYSQL_ROOT_PASSWORD=changeme
     volumes:
-      - ~/docker-volumes/db-data:/var/lib/mysql
+      - /srv/volumes/db-data:/var/lib/mysql
 volumes:
   db-data:
