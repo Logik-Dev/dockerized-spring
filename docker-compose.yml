@@ -12,7 +12,6 @@ services:
     image: mysql
     container_name: mysql
     restart: always
-    user: 1000:1000
     volumes:
       -  ~/docker-volumes/db-data:/var/lib/mysql
     environment:
