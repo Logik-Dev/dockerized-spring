@@ -4,6 +4,11 @@ node {
   stage('Clone') {
 	checkout scm
   }
+  stage('Gradle Build') {
+	withGradle {
+		sh './gradlew build'
+	}
+  }
   stage('Build Image'){
 	app = docker.build("logikdev/spring")
   }
