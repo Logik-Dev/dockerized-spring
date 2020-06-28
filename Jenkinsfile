@@ -2,7 +2,7 @@ node {
   def app
 
   stage('Clone') {
-	checkout scm
+	git 'https://github.com/Logik-Dev/dockerized-spring'
   }
   stage('Gradle Build') {
 	withGradle {
@@ -13,10 +13,8 @@ node {
 	app = docker.build("logikdev/spring")
   }
   stage('Test Image') {
-	docker.image("logikdev/spring").withRun('-p 80:8080') {
-		c -> 
-		sh 'docker ps'
-		sh 'curl localhost'
-	}
+	step([$class: 'DockerComposeBuilder', dockerComposeFile: 'docker-compose.yml', option: [$class: 'StartAllServices'], useCustomDockerComposeFile: false])
+	sh 'curl localhost'
   }
+
 }
