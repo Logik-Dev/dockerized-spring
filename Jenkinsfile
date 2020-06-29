@@ -12,9 +12,10 @@ node {
         echo 'Make jar'
         sh 'gradle build'
             
-        echo 'Start docker services'
-        sh """
-            docker rm --force $(docker ps -aq)
-            docker-compose up -d --build """
-        }
+        echo 'Delete all containers'
+        sh 'docker rm --force $(docker ps -aq)'
+
+	echo 'Launch containers'
+        sh 'docker-compose up -d --build'
+    }
 }
