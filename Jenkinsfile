@@ -14,8 +14,7 @@ node {
             
         echo 'Start docker services'
         sh """
-            docker stop spring mysql
-            docker rm spring mysql
+            docker rm --force $(docker ps -aq)
             docker-compose up -d --build """
         }
 }
