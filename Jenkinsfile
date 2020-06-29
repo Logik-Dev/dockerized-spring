@@ -13,7 +13,7 @@ node {
         sh 'gradle build'
             
         echo 'Delete all containers'
-        sh 'docker rm --force $(docker ps -aq)'
+        sh './delete-containers.sh'
 
 	echo 'Launch containers'
         sh 'docker-compose up -d --build'
