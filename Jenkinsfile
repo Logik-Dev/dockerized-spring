@@ -1,21 +1,22 @@
 node {
+    def image
     stage('Clone') {
-        echo 'Clone backend'
-        git 'https://github.com/Logik-Dev/dockerized-spring'
+        scm checkout
     }
-    stage('Copy') {
-        echo 'Copying static files'
+    stage('Copy static files') {
         sh 'mkdir -p src/main/resources/static'
         sh """ cp $JENKINS_HOME/workspace/FrontEnd/dist/angular-dockerized/* src/main/resources/static """
     }
-    stage('Build') { 
-        echo 'Make jar'
+    stage('Build jar') {
         sh 'gradle build'
-            
-        echo 'Delete all containers'
-        sh './delete-containers.sh'
-
-	echo 'Launch containers'
-        sh 'docker-compose up -d --build'
+    }
+    stage('Build Image') {
+        image = docker.build("logikdevfr/spring")
+    }
+    stage('Push Image') {
+        docker.withRegistry('https://registry.hub.docker.com', 'DockerHub') {
+            image.push("${env.BUILD_ID}")
+            image.push("latest")
+        }
     }
 }
