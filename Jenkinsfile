@@ -1,7 +1,7 @@
 node {
     def image
     stage('Clone') {
-        scm checkout
+        checkout scm
     }
     stage('Copy static files') {
         sh 'mkdir -p src/main/resources/static'
